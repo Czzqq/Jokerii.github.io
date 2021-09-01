@@ -291,7 +291,7 @@
 </ul>
 <p>具体引脚图以及功能就不再展示了，硬件方面完全不懂。</p>
 <p>通过 Adafruit 的 ADXL345 库就可以进行简单的循环打印加速度值的程序；</p>
-<img src="D:\桌面\Czz\笔记\博客\PNG\ADXL345打印数值.png" alt=" " style="zoom:38%;" />
+<img src="https://i.loli.net/2021/09/01/v98STG3VyIdHQbR.png" alt="ADXL345打印数值.png" width="50%" height="50%" />
 
 <h4 id="SSD1306"><a href="#SSD1306" class="headerlink" title="SSD1306"></a>SSD1306</h4><p>​        128 * 32 的OLED屏幕，同样也可以通过 I2C 的通信方式使用树莓派进行控制其显示内容；</p>
 <p>​        详细信息就不过多描述了；        </p>
@@ -299,12 +299,12 @@
 <h4 id="如何同时驱动它们？"><a href="#如何同时驱动它们？" class="headerlink" title="如何同时驱动它们？"></a>如何同时驱动它们？</h4><p>​        这里我选择的是通过两个I2C的通信方式，树莓派有两对 SDL、SCL 的串口，但需要进行开启，非图形界面使用命令 <code>sudo raspi-config</code> 进行配置，但是我们需要用到两条总线因此，使用 <code>i2cdetect -l</code> 进行查看发现只有 i2c - 0 一条，经过查资料发现在 <code>/boot/config.txt</code>  文件中有 <code>dtparam=i2c_arm</code> 和 <code>dtparam=i2c_vc</code> 两个参数，因此推测 vc 控制的便是 i2c - 1 的总线，取消注释后，再进行 <code>i2cdetect -l</code>  就可以看到了两个总线信息；</p>
 <p>​        </p>
 <p>​        同时插上 ADXL345 与 SSD1306，分使用<code>i2cdetect -y 0</code> 与 <code>i2cdetect -y 1</code> 就能查看到两者的地址信息，如图：</p>
-<img src="D:\桌面\Czz\笔记\博客\PNG\i2c地址信息打印.png" style="zoom:38%;" />
+<img src="https://i.loli.net/2021/09/01/SNz2JdW8KhqkQ5M.png" alt="更改程序内总线名称.png" style="zoom: 25%;" />
 
 
 
 <p>此时由于程序内并没有更改其总线的名称，因此我们需要对其中一个代码进行更改，Python参考如下：</p>
-<img src="D:\桌面\Czz\笔记\博客\PNG\更改程序内总线名称.png" style="zoom:50%;" />
+<img src="https://i.loli.net/2021/09/01/8XsWN6imALcowan.png" alt="i2c地址信息打印.png" style="zoom:50%;" />
 
 
 
